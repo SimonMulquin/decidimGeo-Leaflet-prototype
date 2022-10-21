@@ -14,14 +14,10 @@ function createCustomControl(
       }
 
       var subGroup = subGroups[i];
-      console.log(subGroup);
       if (subGroupsMatchers[subGroup](entity)) {
-        console.log(entity);
         if (subGroupsMarkers[subGroup]) {
-          console.log("push");
           subGroupsMarkers[subGroup].push(marker);
         } else {
-          console.log("init");
           subGroupsMarkers[subGroup] = [marker];
         }
         return marker;
@@ -36,6 +32,10 @@ function createCustomControl(
   var subLayerGroups = {};
   subGroups.forEach(group => {
     subLayerGroups[group] = L.layerGroup(subGroupsMarkers[group]);
+  });
+  var subControls = L.control.layers({}, subLayerGroups, {
+    collapsed: false,
+    position: "topleft",
   });
 
   var CustomControl = L.Control.extend({
@@ -64,15 +64,24 @@ function createCustomControl(
 
       container.appendChild(item);
 
+      L.DomEvent.disableClickPropagation(input);
+      input.addEventListener("change", event => {
+        var layers = Object.values(allLayerGroup._layers);
+        for (var i = 0; i < layers.length; i++) {
+          var layer = layers[i];
+          console.log(map.hasLayer(layer));
+          if (event.target.checked) {
+            map.addLayer(layer);
+          } else if (map.hasLayer(layer)) {
+            map.removeLayer(layer);
+          }
+        }
+      });
+
       return container;
     },
   });
 
   map.addControl(new CustomControl());
-  L.control
-    .layers({}, subLayerGroups, {
-      collapsed: false,
-      position: "topleft",
-    })
-    .addTo(map);
+  subControls.addTo(map);
 }
