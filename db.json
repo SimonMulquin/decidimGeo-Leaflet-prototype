@@ -1,0 +1,38 @@
+{
+    "areas": [
+        {
+            "id": 1,
+            "name": "Area 1",
+            "polygon": [
+                [46.511297, 6.642541],
+                [46.511297, 6.632841],
+                [46.521597, 6.632841],
+                [46.511297, 6.642541]
+            ]
+        }
+    ],
+    "processes": [
+        {
+            "id": 1,
+            "name": "Process 1",
+            "location": [46.521297, 6.637541],
+            "href": "http://localhost:3000/processes/1"
+        }
+    ],
+    "meetings": [
+        {
+            "id": 1,
+            "name": "Meeting 1",
+            "location": [46.511297, 6.632541],
+            "href": "http://localhost:3000/meetings/1"
+        }
+    ],
+    "proposals": [
+        {
+            "id": 1,
+            "name": "Proposal 1",
+            "location": [46.531297, 6.634541],
+            "href": "http://localhost:3000/proposals/1"
+        }
+    ]
+}

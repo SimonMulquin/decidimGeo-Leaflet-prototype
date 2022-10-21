@@ -1,0 +1,12 @@
+{
+  "name": "decidimGeo-Leaflet",
+  "version": "1.0.0",
+  "description": "Prototype of a low dependency map frontend for Geo-Decidim, featuring a web server for placeholder data",
+  "author": "Simon Mulquin <simon@octree.ch>",
+  "scripts": {
+    "start": "json-server db.json"
+  },
+  "dependencies": {
+    "json-server": "^0.17.0"
+  }
+}
