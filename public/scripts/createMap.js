@@ -25,9 +25,6 @@ async function createMap() {
       {},
       {
         processes: processesLayerGroup,
-        meetings: meetingsLayerGroup,
-        proposals: proposalsLayerGroup,
-        areas: areasLayerGroup,
       },
       {
         position: "topleft",
@@ -35,6 +32,30 @@ async function createMap() {
     )
     .addTo(map);
 
+  var layerControl = L.control
+    .layers(
+      {},
+      {
+        meetings: meetingsLayerGroup,
+      },
+      {
+        position: "topleft",
+      }
+    )
+    .addTo(map);
+  var layerControl = L.control
+    .layers(
+      {},
+      {
+        proposals: proposalsLayerGroup,
+        areas: areasLayerGroup,
+      },
+      {
+        collapsed: false,
+        position: "topleft",
+      }
+    )
+    .addTo(map);
 }
 
 createMap();
