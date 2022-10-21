@@ -1,0 +1,19 @@
+.leaflet-left > .leaflet-control-zoom {
+    display: none;
+}
+
+.leaflet-right > .leaflet-control-zoom {
+    border: 0;
+    margin-right: 0;
+}
+
+.leaflet-control-zoom-in, .leaflet-control-zoom-out {
+    box-sizing:content-box;
+    border: grey solid 1px;
+    border-bottom: grey solid 1px !important;
+    display: inline-block !important;
+    padding-inline: 2px;
+    padding-bottom: 4px !important;
+    border-radius: 2px;
+    margin-right: 10px;  
+}
