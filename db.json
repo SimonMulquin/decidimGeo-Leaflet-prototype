@@ -11,12 +11,37 @@
             ]
         }
     ],
+    "processesGroup": [
+        {
+            "id": 1,
+            "name": "Process group 1"
+        },
+        {
+            "id": 2,
+            "name": "Process group 2"
+        }
+    ],
     "processes": [
         {
             "id": 1,
             "name": "Process 1",
             "location": [46.521297, 6.637541],
-            "href": "http://localhost:3000/processes/1"
+            "href": "http://localhost:3000/processes/1",
+            "processesGroupId": 1
+        },
+        {
+            "id": 2,
+            "name": "Process 2",
+            "location": [46.529297, 6.639541],
+            "href": "http://localhost:3000/processes/2",
+            "processesGroupId": 1
+        },
+        {
+            "id": 3,
+            "name": "Process 3",
+            "location": [46.520297, 6.617541],
+            "href": "http://localhost:3000/processes/3",
+            "processesGroupId": 2
         }
     ],
     "meetings": [
@@ -25,6 +50,12 @@
             "name": "Meeting 1",
             "location": [46.511297, 6.632541],
             "href": "http://localhost:3000/meetings/1"
+        },
+        {
+            "id": 2,
+            "name": "Meeting 2",
+            "location": [46.514197, 6.635341],
+            "href": "http://localhost:3000/meetings/2"
         }
     ],
     "proposals": [
@@ -33,6 +64,12 @@
             "name": "Proposal 1",
             "location": [46.531297, 6.634541],
             "href": "http://localhost:3000/proposals/1"
+        },
+        {
+            "id": 1,
+            "name": "Proposal 2",
+            "location": [46.521297, 6.614341],
+            "href": "http://localhost:3000/proposals/2"
         }
     ]
 }

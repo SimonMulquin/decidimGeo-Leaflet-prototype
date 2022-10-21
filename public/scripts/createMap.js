@@ -1,5 +1,5 @@
 async function createMap() {
-  var map = L.map("map").setView([46.521297, 6.632541], 13);
+  var map = L.map("map", { center: [46.521297, 6.632541], zoom: 13 });
   map.zoomControl.setPosition("topright");
 
   var osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -9,41 +9,29 @@ async function createMap() {
   }).addTo(map);
 
   var processes = await getCollection("http://localhost:3000/processes");
-  var meetings = await getCollection("http://localhost:3000/meetings");
-  var proposals = await getCollection("http://localhost:3000/proposals");
+  createCustomControl(map, {
+    label: "processes",
+    collection: processes,
+    subGroupsMatchers: {
+      "Process group 1": process => process.processesGroupId == 1,
+      "Process group 2": process => process.processesGroupId == 2,
+    },
+  });
 
-  var processesLayerGroup = createLayerGroup(processes, createMarker);
-  var meetingsLayerGroup = createLayerGroup(meetings, createMarker);
+  var meetings = await getCollection("http://localhost:3000/meetings");
+  createCustomControl(map, {
+    label: "meetings",
+    collection: meetings,
+    subGroupsMatchers: { related: meeting => true },
+  });
+
+  var proposals = await getCollection("http://localhost:3000/proposals");
   var proposalsLayerGroup = createLayerGroup(proposals, createMarker);
 
   var areas = await getCollection("http://localhost:3000/areas");
-
   var areasLayerGroup = createLayerGroup(areas, createPolygon);
 
-  var layerControl = L.control
-    .layers(
-      {},
-      {
-        processes: processesLayerGroup,
-      },
-      {
-        position: "topleft",
-      }
-    )
-    .addTo(map);
-
-  var layerControl = L.control
-    .layers(
-      {},
-      {
-        meetings: meetingsLayerGroup,
-      },
-      {
-        position: "topleft",
-      }
-    )
-    .addTo(map);
-  var layerControl = L.control
+  L.control
     .layers(
       {},
       {
