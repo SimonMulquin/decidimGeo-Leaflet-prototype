@@ -66,13 +66,17 @@ function createCustomControl(
       input.addEventListener("change", event => {
         var layers = Object.values(allLayerGroup._layers);
         subControls._layerControlInputs.forEach(subInput => {
-          subInput.dispatchEvent(
-            new MouseEvent("click", {
-              view: window,
-              bubbles: false,
-              cancelable: false,
-            })
-          );
+          if (subInput.checked != event.target.checked) {
+            //this need to be a click event in order to trigger leaflet _onInputClick method 
+            // and keep the layer aligned with the corresponding input state
+            subInput.dispatchEvent(
+              new MouseEvent("click", {
+                view: window,
+                bubbles: false,
+                cancelable: false,
+              })
+            );
+          }
         });
         for (var i = 0; i < layers.length; i++) {
           var layer = layers[i];
