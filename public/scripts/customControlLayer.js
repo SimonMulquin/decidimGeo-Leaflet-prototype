@@ -50,7 +50,6 @@ function createCustomControl(
       var input = L.DomUtil.create("input");
       input.type = "checkbox";
       input.checked = false;
-      // Insert the input as child of container.
       item.appendChild(input);
 
       var labelElement = L.DomUtil.create("span");
@@ -61,15 +60,22 @@ function createCustomControl(
         "div",
         "leaflet-control-layers-overlays"
       );
-
       container.appendChild(item);
 
       L.DomEvent.disableClickPropagation(input);
       input.addEventListener("change", event => {
         var layers = Object.values(allLayerGroup._layers);
+        subControls._layerControlInputs.forEach(subInput => {
+          subInput.dispatchEvent(
+            new MouseEvent("click", {
+              view: window,
+              bubbles: false,
+              cancelable: false,
+            })
+          );
+        });
         for (var i = 0; i < layers.length; i++) {
           var layer = layers[i];
-          console.log(map.hasLayer(layer));
           if (event.target.checked) {
             map.addLayer(layer);
           } else if (map.hasLayer(layer)) {
