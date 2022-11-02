@@ -41,5 +41,6 @@
     line-height: 20px;
     padding: 4px 8px;
     border-radius: 18px;
+    border: 1px solid grey;
     color: grey;
 }

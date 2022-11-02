@@ -2,7 +2,7 @@ async function createMap() {
   var map = L.map("map", { center: [46.521297, 6.632541], zoom: 13 });
   map.zoomControl.setPosition("topright");
 
-  var osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  var osm = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
     maxZoom: 19,
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
