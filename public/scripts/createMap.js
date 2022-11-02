@@ -1,5 +1,5 @@
 async function createMap() {
-  var map = L.map("map", { center: [46.521297, 6.632541], zoom: 13 });
+  var map = L.map("map", { center: [46.521297, 6.632541], zoom: 14 });
   map.zoomControl.setPosition("topright");
 
   var osm = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
