@@ -9,7 +9,7 @@ async function createMap() {
   }).addTo(map);
 
   var processes = await getCollection("http://localhost:3000/processes");
-  createCustomControl(map, {
+  createCollectionNestedControls(map, {
     label: "processes",
     collection: processes,
     subGroupsMatchers: {
@@ -19,7 +19,7 @@ async function createMap() {
   });
 
   var meetings = await getCollection("http://localhost:3000/meetings");
-  createCustomControl(map, {
+  createCollectionNestedControls(map, {
     label: "meetings",
     collection: meetings,
     subGroupsMatchers: { related: meeting => true },
@@ -27,23 +27,17 @@ async function createMap() {
 
   var proposals = await getCollection("http://localhost:3000/proposals");
   var proposalsLayerGroup = createLayerGroup(proposals, createMarker);
+  createCollectionControl(map, {
+    label: "proposals",
+    layerGroup: proposalsLayerGroup,
+  });
 
   var areas = await getCollection("http://localhost:3000/areas");
   var areasLayerGroup = createLayerGroup(areas, createPolygon);
-
-  L.control
-    .layers(
-      {},
-      {
-        proposals: proposalsLayerGroup,
-        areas: areasLayerGroup,
-      },
-      {
-        collapsed: false,
-        position: "topleft",
-      }
-    )
-    .addTo(map);
+  createCollectionControl(map, {
+    label: "areas",
+    layerGroup: areasLayerGroup,
+  });
 }
 
 createMap();
