@@ -11,16 +11,20 @@ async function createMap() {
     }
   ).addTo(map);
 
-  var {data: {participatoryProcesses}} = await getDecidimData(participatoryProcessesQuery);
+  var {
+    data: { participatoryProcesses },
+  } = await getDecidimData(participatoryProcessesQuery);
   createNestedControls(map, {
     label: "processes",
     data: participatoryProcesses,
-    getSubGroupName: ({title: {translation}}) => translation,
+    getSubGroupName: ({ title: { translation } }) => translation,
     getNodes: getParticipatoryProcessesNodes,
     formatMarkerDataReducers: {
-      location: ({coordinates}) => [coordinates.latitude, coordinates.longitude],
-      href: () => '/test',
-    }
+      location: ({ coordinates: { latitude, longitude } }) => {
+        if (latitude && longitude) return [latitude, longitude];
+      },
+      href: () => "/test",
+    },
   });
 
   var meetings = await getCollection("http://localhost:3000/meetings");

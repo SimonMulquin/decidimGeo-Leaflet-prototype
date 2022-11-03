@@ -12,20 +12,15 @@ function createNestedControls(
     },
   }
 ) {
-  var subGroupsNames = [];
   var subGroupsMarkers = {};
 
   var allLayerGroup = createLayerGroup(data, entity => {
     //format api data for markers
     var subGroup = getSubGroupName(entity);
-    if (!subGroupsNames.includes(subGroup)) {
-      subGroupsNames.push(subGroup);
-    }
 
     var markers = [];
     var nodes = getNodes(entity);
 
-    console.log({ nodes });
     nodes.forEach(inode => {
       var description = descriptionReducer(inode);
       var location = locationReducer(inode);
@@ -47,7 +42,7 @@ function createNestedControls(
   });
 
   var subLayerGroups = {};
-  subGroupsNames.forEach(group => {
+  Object.keys(subGroupsMarkers).forEach(group => {
     subLayerGroups[group] = L.layerGroup(subGroupsMarkers[group]);
   });
   var subControls = L.control.layers({}, subLayerGroups, {
