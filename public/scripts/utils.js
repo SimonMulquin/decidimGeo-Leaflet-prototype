@@ -1,6 +1,6 @@
-function createMarker(entity) {
-  return L.marker(entity.location).bindPopup(
-    `<h1>${entity.name}</h1> <a href="${entity.href}">View</a>`
+function createMarker({ description, location, href }) {
+  return L.marker(location).bindPopup(
+    `<h1>${description}</h1> <a href="${href}">View</a>`
   );
 }
 
@@ -8,10 +8,27 @@ function createPolygon(entity) {
   return L.polygon(entity.polygon);
 }
 
-function createLayerGroup(collection, toLeafletElement) {
+function getParticipatoryProcessesNodes(participatoryProcess) {
+  var components = participatoryProcess.components;
+  if (components && components.length > 0) {
+    var meetingsComponent = components.find(
+      ({ meetings }) => meetings && meetings.nodes.length > 0
+    );
+
+    if (meetingsComponent) {
+      return meetingsComponent.meetings.nodes;
+    }
+  }
+  return [];
+}
+
+function createLayerGroup(collection, createEntityMarkers) {
   var layerGroup = [];
   collection.forEach(entity => {
-    layerGroup.push(toLeafletElement(entity));
+    var markers = createEntityMarkers(entity);
+    if (markers.length > 0) {
+      markers.forEach(marker => layerGroup.push(marker));
+    }
   });
   return L.layerGroup(layerGroup);
 }
@@ -28,7 +45,27 @@ async function getCollection(url) {
   return [];
 }
 
-function createParentControlInputelement({label, changeEventHandler}) {
+async function getDecidimData(query) {
+  var collection = await window
+    .fetch("https://participer.lausanne.ch/api", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query,
+      }),
+    })
+    .then(response => response.json())
+    .catch(alert);
+
+  if (collection) {
+    return collection;
+  }
+  return [];
+}
+
+function createParentControlInputelement({ label, changeEventHandler }) {
   var item = L.DomUtil.create("label");
 
   var input = L.DomUtil.create("input");

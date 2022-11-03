@@ -2,20 +2,25 @@ async function createMap() {
   var map = L.map("map", { center: [46.521297, 6.632541], zoom: 14 });
   map.zoomControl.setPosition("topright");
 
-  var osm = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-    maxZoom: 19,
-    attribution:
-      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  }).addTo(map);
+  var osm = L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+    {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }
+  ).addTo(map);
 
-  var processes = await getCollection("http://localhost:3000/processes");
-  createCollectionNestedControls(map, {
+  var {data: {participatoryProcesses}} = await getDecidimData(participatoryProcessesQuery);
+  createNestedControls(map, {
     label: "processes",
-    collection: processes,
-    subGroupsMatchers: {
-      "Process group 1": process => process.processesGroupId == 1,
-      "Process group 2": process => process.processesGroupId == 2,
-    },
+    data: participatoryProcesses,
+    getSubGroupName: ({title: {translation}}) => translation,
+    getNodes: getParticipatoryProcessesNodes,
+    formatMarkerDataReducers: {
+      location: ({coordinates}) => [coordinates.latitude, coordinates.longitude],
+      href: () => '/test',
+    }
   });
 
   var meetings = await getCollection("http://localhost:3000/meetings");

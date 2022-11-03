@@ -1,36 +1,53 @@
-function createCollectionNestedControls(
+function createNestedControls(
   map,
-  { label, collection, subGroupsMatchers = {} }
+  {
+    label,
+    data,
+    getSubGroupName = ({ name }) => name,
+    getNodes = entity => [entity],
+    formatMarkerDataReducers: {
+      description: descriptionReducer = ({ description }) => description,
+      location: locationReducer = ({ location }) => location,
+      href: hrefReducer = ({ href }) => href,
+    },
+  }
 ) {
-  var subGroups = Object.keys(subGroupsMatchers);
-
+  var subGroupsNames = [];
   var subGroupsMarkers = {};
-  var allLayerGroup = createLayerGroup(collection, entity => {
-    var marker = createMarker(entity);
 
-    function matchSublayer(i = 0) {
-      if (i >= subGroups.length) {
-        return subGroupsMarkers[subGroup];
-      }
+  var allLayerGroup = createLayerGroup(data, entity => {
+    //format api data for markers
+    var subGroup = getSubGroupName(entity);
+    if (!subGroupsNames.includes(subGroup)) {
+      subGroupsNames.push(subGroup);
+    }
 
-      var subGroup = subGroups[i];
-      if (subGroupsMatchers[subGroup](entity)) {
-        if (subGroupsMarkers[subGroup]) {
+    var markers = [];
+    var nodes = getNodes(entity);
+
+    console.log({ nodes });
+    nodes.forEach(inode => {
+      var description = descriptionReducer(inode);
+      var location = locationReducer(inode);
+      var href = hrefReducer(inode);
+      if (location) {
+        var marker = createMarker({ description, location, href });
+
+        if (subGroupsMarkers[subGroup] && marker) {
           subGroupsMarkers[subGroup].push(marker);
         } else {
           subGroupsMarkers[subGroup] = [marker];
         }
-        return subGroupsMarkers[subGroup];
+
+        markers.push(marker);
       }
+    });
 
-      return matchSublayer(++i);
-    }
-
-    return matchSublayer();
+    return markers;
   });
 
   var subLayerGroups = {};
-  subGroups.forEach(group => {
+  subGroupsNames.forEach(group => {
     subLayerGroups[group] = L.layerGroup(subGroupsMarkers[group]);
   });
   var subControls = L.control.layers({}, subLayerGroups, {
