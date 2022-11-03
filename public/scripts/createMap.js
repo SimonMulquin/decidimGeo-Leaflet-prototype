@@ -35,14 +35,14 @@ async function createMap() {
   });
 
   var proposals = await getCollection("http://localhost:3000/proposals");
-  var proposalsLayerGroup = createLayerGroup(proposals, createMarker);
+  var proposalsLayerGroup = createLayerGroup(proposals, (e) => [createMarker(e)]);
   createCollectionControl(map, {
     label: "proposals",
     layerGroup: proposalsLayerGroup,
   });
 
   var areas = await getCollection("http://localhost:3000/areas");
-  var areasLayerGroup = createLayerGroup(areas, createPolygon);
+  var areasLayerGroup = createLayerGroup(areas, (e) => [createPolygon(e)]);
   createCollectionControl(map, {
     label: "areas",
     layerGroup: areasLayerGroup,
