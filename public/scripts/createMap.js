@@ -14,13 +14,13 @@ async function createMap() {
   var {
     data: { participatoryProcesses },
   } = await getDecidimData(participatoryProcessesQuery);
-  createNestedControls(map, {
+  await createNestedControls(map, {
     label: "processes",
     data: participatoryProcesses,
     getSubGroupName: ({ title: { translation } }) => translation,
     getNodes: getParticipatoryProcessesNodes,
     formatMarkerDataReducers: {
-      description: ({description: {translation}}) => translation,
+      description: ({ description: { translation } }) => translation,
       location: ({ coordinates: { latitude, longitude } }) => {
         if (latitude && longitude) return [latitude, longitude];
       },
@@ -29,21 +29,26 @@ async function createMap() {
   });
 
   var meetings = await getCollection("http://localhost:3000/meetings");
-  createCollectionNestedControls(map, {
+  await createCollectionNestedControls(map, {
     label: "meetings",
     collection: meetings,
     subGroupsMatchers: { related: meeting => true },
   });
 
   var proposals = await getCollection("http://localhost:3000/proposals");
-  var proposalsLayerGroup = createLayerGroup(proposals, (e) => [createMarker(e)]);
+  var proposalsLayerGroup = await createLayerGroup(proposals, e => [
+    createMarker(e),
+  ]);
   createCollectionControl(map, {
     label: "proposals",
     layerGroup: proposalsLayerGroup,
   });
 
   var areas = await getCollection("http://localhost:3000/areas");
-  var areasLayerGroup = createLayerGroup(areas, (e) => [createPolygon(e)]);
+  var areasLayerGroup = await createLayerGroup(areas, async e => {
+    await getShapefile(e);
+    return [];
+  });
   createCollectionControl(map, {
     label: "areas",
     layerGroup: areasLayerGroup,

@@ -1,42 +1,41 @@
-<html lang="en"><head>
-	<base target="_top">
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<title>Leaflet Prototype</title>
+<html lang="en">
+	<head>
+		<base target="_top">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<title>Leaflet Prototype</title>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="">
-    <link rel="stylesheet" href="/override.css" />
-	<link rel="stylesheet" href="/decidimGeo.css" />
-	<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="">
+		<link rel="stylesheet" href="/override.css" />
+		<link rel="stylesheet" href="/decidimGeo.css" />
+		<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
 
-	<style>
-		html, body {
-			height: 100%;
-			margin: 0;
-		}
-		.leaflet-container {
-			height: 640px;
-			width: 100%;
-			max-width: 100%;
-			max-height: 100%;
-		}
-	</style>
+		<style>
+			html, body {
+				height: 100%;
+				margin: 0;
+			}
+			.leaflet-container {
+				height: 640px;
+				width: 100%;
+				max-width: 100%;
+				max-height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript" src="/lib/jszip.min.js"></script>
 
-	
-</head>
-<body>
+		<div id="map"></div>
+			<script src="/scripts/utils.js"></script>
+			<script src="/scripts/createCollectionNestedControls.js"></script>
+			<script src="/scripts/createCollectionControl.js"></script>
+			<script src="/scripts/createNestedControls.js"></script>
+			<script src="/scripts/getShapefile.js"></script>
+			<script src="/scripts/queries.js"></script>
+			<script src="/scripts/createMap.js"></script>
 
-<div id="map"></div>
-<script src="/scripts/utils.js"></script>
-<script src="/scripts/createCollectionNestedControls.js"></script>
-<script src="/scripts/createCollectionControl.js"></script>
-<script src="/scripts/createNestedControls.js"></script>
-<script src="/scripts/queries.js"></script>
-<script src="/scripts/createMap.js"></script>
-
-
-
-
-
-<div style="position: static !important;"></div></body></html>
+		<div style="position: static !important;"></div>
+	</body>
+</html>

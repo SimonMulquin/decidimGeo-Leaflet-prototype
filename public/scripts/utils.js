@@ -4,10 +4,6 @@ function createMarker({ description, location, href }) {
   );
 }
 
-function createPolygon(entity) {
-  return L.polygon(entity.polygon);
-}
-
 function getParticipatoryProcessesNodes(participatoryProcess) {
   var components = participatoryProcess.components;
   if (components && components.length > 0) {
@@ -22,14 +18,17 @@ function getParticipatoryProcessesNodes(participatoryProcess) {
   return [];
 }
 
-function createLayerGroup(collection, createEntityMarkers) {
+async function createLayerGroup(collection, createEntityMarkers) {
   var layerGroup = [];
-  collection.forEach(entity => {
-    var markers = createEntityMarkers(entity);
-    if (markers.length > 0) {
-      markers.forEach(marker => layerGroup.push(marker));
-    }
-  });
+  await Promise.all(
+    collection.map(async entity => {
+      var markers = await createEntityMarkers(entity);
+      if (markers.length > 0) {
+        markers.forEach(marker => layerGroup.push(marker));
+      }
+      return;
+    })
+  );
   return L.layerGroup(layerGroup);
 }
 

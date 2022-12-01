@@ -1,4 +1,4 @@
-function createNestedControls(
+async function createNestedControls(
   map,
   {
     label,
@@ -14,7 +14,7 @@ function createNestedControls(
 ) {
   var subGroupsMarkers = {};
 
-  var allLayerGroup = createLayerGroup(data, entity => {
+  var allLayerGroup = await createLayerGroup(data, entity => {
     //format api data for markers
     var subGroup = getSubGroupName(entity);
 

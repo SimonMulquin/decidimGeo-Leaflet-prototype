@@ -1,11 +1,11 @@
-function createCollectionNestedControls(
+async function createCollectionNestedControls(
   map,
   { label, collection, subGroupsMatchers = {} }
 ) {
   var subGroups = Object.keys(subGroupsMatchers);
 
   var subGroupsMarkers = {};
-  var allLayerGroup = createLayerGroup(collection, entity => {
+  var allLayerGroup = await createLayerGroup(collection, entity => {
     var marker = createMarker(entity);
 
     function matchSublayer(i = 0) {
