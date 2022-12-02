@@ -46,8 +46,8 @@ async function createMap() {
 
   var areas = await getCollection("http://localhost:3000/areas");
   var areasLayerGroup = await createLayerGroup(areas, async e => {
-    await getShapefile(e);
-    return [];
+    const geojsonFeature = await getShapefile(e);
+    return [L.geoJSON(geojsonFeature)];
   });
   createCollectionControl(map, {
     label: "areas",

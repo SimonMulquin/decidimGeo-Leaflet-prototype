@@ -1,8 +1,7 @@
 async function getShapefile(area) {
   return await window
     .fetch(`/shapefiles/${area.shapefile}`)
-    .then(response => response.blob())
-    .then(JSZip.loadAsync)
-    .then(console.log)
+    .then(response => response.arrayBuffer())
+    .then(shp)
     .catch(alert);
 }
