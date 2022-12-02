@@ -1,5 +1,5 @@
 async function createMap() {
-  var map = L.map("map", { center: [46.521297, 6.632541], zoom: 14 });
+  var map = L.map("map", { center: [47.36667, 8.55], zoom: 14 });
   map.zoomControl.setPosition("topright");
 
   var osm = L.tileLayer(
@@ -12,11 +12,21 @@ async function createMap() {
   ).addTo(map);
 
   var {
-    data: { participatoryProcesses },
-  } = await getDecidimData(participatoryProcessesQuery);
+    data: { participatoryProcesses: collection1 },
+  } = await getDecidimData(
+    participatoryProcessesQuery,
+    "https://mitwirken.stadt-zuerich.ch/api"
+  );
+
+  var {
+    data: { participatoryProcesses: collection2 },
+  } = await getDecidimData(
+    participatoryProcessesQuery,
+    "https://meinquartier.zuerich/api"
+  );
   await createNestedControls(map, {
     label: "processes",
-    data: participatoryProcesses,
+    data: [...collection1, ...collection2],
     getSubGroupName: ({ title: { translation } }) => translation,
     getNodes: getParticipatoryProcessesNodes,
     formatMarkerDataReducers: {

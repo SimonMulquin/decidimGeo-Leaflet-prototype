@@ -44,9 +44,9 @@ async function getCollection(url) {
   return [];
 }
 
-async function getDecidimData(query) {
+async function getDecidimData(query, url) {
   var collection = await window
-    .fetch("https://participer.lausanne.ch/api", {
+    .fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -57,6 +57,8 @@ async function getDecidimData(query) {
     })
     .then(response => response.json())
     .catch(alert);
+
+    console.log({collection})
 
   if (collection) {
     return collection;

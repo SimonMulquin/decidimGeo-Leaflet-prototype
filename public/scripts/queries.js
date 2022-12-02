@@ -2,7 +2,7 @@ var participatoryProcessesQuery = `{
   participatoryProcesses {
     id
     title {
-      translation(locale: "fr")
+      translation(locale: "de")
     }
     components(filter: {type: "Meetings"}) {
       id
@@ -11,7 +11,7 @@ var participatoryProcessesQuery = `{
         meetings {
           nodes {
             description {
-              translation(locale: "fr")
+              translation(locale: "de")
             }
             coordinates {
               latitude
